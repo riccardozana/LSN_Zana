@@ -208,6 +208,7 @@ void Population :: PrintLAve(string filename){
 void Population :: PrintBestPath(string filename){
   ofstream Output;
   Output.open(filename);
+  cout << "Il Miglior Cammino è stato ottenuto alla generazione: " << m_gen_best;
   
   for(int i=0; i<m_dim; i++){
     Output << m_BestPath[i] << "\t" << m_pos[0][m_BestPath[i]] << "\t" << m_pos[1][m_BestPath[i]] << endl;
@@ -340,6 +341,7 @@ void Population :: Sort(){
   if(m_Matr[0].GetL()<m_minL){
     m_BestPath=m_Matr[0].GetVector();
     m_minL=m_Matr[0].GetL();
+    m_gen_best=m_gen;
   }
 }
 

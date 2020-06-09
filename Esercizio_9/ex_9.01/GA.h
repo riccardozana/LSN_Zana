@@ -45,7 +45,7 @@ private:
 class Population{
   
 private:
-  int                    m_indiv, m_gen, m_dim;
+  int                    m_indiv, m_gen, m_dim, m_gen_best;
   double                 m_minL, m_aveL;
   Random *               m_rand;
   vector<Individual>     m_Matr;
