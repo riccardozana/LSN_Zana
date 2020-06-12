@@ -78,10 +78,6 @@ int main (int argc, char *argv[]){
     t.push_back(atan(yt[i]/xt[i])); //carico il vettore dei theta
   }
   
- /* N_h=Count(d, L, M, x0, t);
-  cout << N_h << endl;
-  
-  cout<< (2*L*M)/(N_h*d) << endl;*/
   
   for (int i=0; i<N; i++){
     int N_h=0; //lanci successo
@@ -89,7 +85,6 @@ int main (int argc, char *argv[]){
     N_h=Count(d, L, S, k, x0, t);
     AV[i]=double(N_h)/S;
     AV2[i]=pow(AV[i], 2);
-    //cout<< (2*L)/(AV[i]*d) << endl;
   }
   
   for (int i=0; i<N; i++){
