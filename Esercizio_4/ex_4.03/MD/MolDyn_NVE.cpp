@@ -37,8 +37,8 @@ int main(){
         Measure("solid_out");
      }
   }
-  Restart("solid_out");
-  FinalRestart("solid_out");
+  Restart("solid_out"); //restart di equilibrazione
+  FinalRestart("solid_out"); //restart finale, calcolo dei valori con blocchi
   
   //SIMULAZIONE FASE LIQUIDA
   
@@ -71,7 +71,7 @@ int main(){
 
 /***************************************************************/
 
-void Input(std::string fileinput){ //Prepare all stuff for the simulation
+void Input(std::string fileinput){ //Lettura file input per la simulazione
   ifstream ReadInput,ReadConf;
   double ep, ek, pr, et, vir;
 
@@ -80,10 +80,10 @@ void Input(std::string fileinput){ //Prepare all stuff for the simulation
   cout << "Interatomic potential v(r) = 4 * [(1/r)^12 - (1/r)^6]" << endl << endl;
   cout << "The program uses Lennard-Jones units " << endl;
 
-  seed = 1;    //Set seed for random numbers
-  srand(seed); //Initialize random number generator
+  seed = 1;
+  srand(seed);
   
-  ReadInput.open(fileinput); //Read input
+  ReadInput.open(fileinput);
 
   ReadInput >> temp;
 
@@ -198,7 +198,7 @@ void Move(void){ //Move particles with Verlet algorithm
 
 /***************************************************************/
 
-void Move_WO_Vel(void){ //Move particles with Verlet algorithm
+void Move_WO_Vel(void){ //Muove le particelle senza il calcolo delle velocità
   double xnew, ynew, znew, fx[m_part], fy[m_part], fz[m_part];
   
   for(int i=0; i<npart; ++i){ //Force acting on particle i
@@ -250,7 +250,7 @@ double Force(int ip, int idir){ //Compute forces as -Grad_ip V(r)
 
 /***************************************************************/
 
-void Measure(std::string fileoutput){ //Properties measurement
+void Measure(std::string fileoutput){ //Misura i valori istantanei
   int bin;
   double v, t, vij;
   double dx, dy, dz, dr;
@@ -307,7 +307,7 @@ void Measure(std::string fileoutput){ //Properties measurement
 
 /***************************************************************/
 
-void MeasureR(std::string fileoutput, int i){ //Properties measurement
+void MeasureR(std::string fileoutput, int i){ // MeasureRestart - Misura valori istantanei nei restart di equilibrazione
   int bin;
   double v, t, vij;
   double dx, dy, dz, dr;
@@ -443,7 +443,7 @@ void Eval_Print_SI(std::string namefile, std::vector<double> AV, std::vector<dou
 
 /***************************************************************/
 
-void MeasureRB(std::string fileoutput, int i, int N, std::vector<std::vector<double> > &M)
+void MeasureRB(std::string fileoutput, int i, int N, std::vector<std::vector<double> > &M) //MeasureRestartBlock - Misura i valori istantanei nell'ultima simulazione e salva i valori in una matrice per il calcolo dei blocchi
 { //Properties measurement
   int bin;
   double v, t, vij;
@@ -611,7 +611,7 @@ void Restart(std::string fileoutput){
           Move();           //Move particles with Verlet algorithm
           if(istep%iprint == 0) cout << "Number of time-steps: " << istep << endl;
           if(istep%10 == 0){
-            MeasureR(fileoutput, count);     //Properties measurement
+            MeasureR(fileoutput, count);     //Misuro i valori
             //        ConfXYZ(nconf);//Write actual configuration in XYZ format //Commented to avoid "filesystem full"!
             nconf += 1;
           }
@@ -680,14 +680,7 @@ void FinalRestart(std::string fileoutput){
     double  L=nStepfinal/(N);
     vector <vector<double> > M(8, vector<double>(N, 0.0));
     
-    /*AVEpot
-    AV2Epot
-    AVEkin
-    AV2Ekin
-    AVTemp
-    AV2Temp
-    AVEtot
-    AV2Etot*/
+
     
     for(int i=0; i<N ; i++){
       cout << "Number of time-steps: " << i*L << endl;
@@ -698,6 +691,15 @@ void FinalRestart(std::string fileoutput){
           //        ConfXYZ(i+j/10);//Write actual configuration in XYZ format //Commented to avoid "filesystem full"!
         }
       }
+      
+      /*AVEpot
+       AV2Epot
+       AVEkin
+       AV2Ekin
+       AVTemp
+       AV2Temp
+       AVEtot
+       AV2Etot*/
       //calcolo dei valori medi
       M[0][i]/=(L/10);
       M[1][i]=pow(M[0][i], 2);
