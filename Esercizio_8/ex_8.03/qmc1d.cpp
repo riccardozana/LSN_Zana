@@ -185,28 +185,28 @@ double external_potential_second(double val)
 // You can modify this function but don't forget
 // to modify its second derivative below!
 double variationalWaveFunction(double x)
-{ double sigma=0.614097;
+{ /*double sigma=0.614097;
   double mu=0.817033;
   double sigma2=sigma*sigma;
   
   double N=sqrt(2.*sqrt(M_PI)*sigma*(1.+exp(-1.*mu*mu/(sigma2))));
   double amp=1./N*(exp(-1.*pow(x-mu,2)/(2.*sigma2))+exp(-1*pow(x+mu,2)/(2*sigma2)));
-  return amp;
-  //return 1.0;
+  return amp;*/
+  return 1.0;
 	//return exp(-0.5*v*v);
 }
 
 double variationalWaveFunction_second(double x)
 {
 	return 0;
-  double sigma=0.614097;
+  /*double sigma=0.614097;
   double mu=0.817033;
   double sigma2=sigma*sigma;
   double sigma4=sigma2*sigma2;
   
   double N=sqrt(2.*sqrt(M_PI)*sigma*(1.+exp(-1.*mu*mu/(sigma2))));
   double amp=1./N*(-(exp(-1.*pow(x-mu,2)/(2.*sigma2)))/(sigma2)-(exp(-1*pow(x+mu,2)/(2*sigma2)))/(sigma2)+(pow(x-mu,2)*exp(-1.*pow(x-mu,2)/(2.*sigma2)))/(sigma4)+(pow(x+mu,2)*exp(-1*pow(x+mu,2)/(2*sigma2)))/(sigma4));
-  return amp;
+  return amp;*/
 	//return v*v*exp(-0.5*v*v) - exp(-0.5*v*v);
 }
 
@@ -469,7 +469,7 @@ Then the error is calculated by the usual formula err(A)=sqrt(|<A><A>-<A*A>|/Nbl
 */
 void finalizePotentialEstimator()
 {
-	ofstream out("potentialT100.dat");
+	ofstream out("potential.dat");
 	for(int i=0;i<timeslices;i++)
 	{
 		double potential_energy_average = potential_energy_accumulator[i]/blocks;
@@ -482,7 +482,7 @@ void finalizePotentialEstimator()
 
 void finalizeKineticEstimator()
 {
-	ofstream out("kineticT100.dat");
+	ofstream out("kinetic.dat");
 	for(int i=0;i<timeslices;i++)
 	{
 		double kinetic_energy_average = kinetic_energy_accumulator[i]/blocks;
@@ -496,7 +496,7 @@ void finalizeKineticEstimator()
 
 void finalizeHistogram()
 {
-	ofstream out("probabilityT100.dat");
+	ofstream out("probability.dat");
         double current_position, hist_average, hist_square_avg, error;
 	double delta_pos = (histogram_end-histogram_start)/histogram_bins;
         double norma = 0.0;
