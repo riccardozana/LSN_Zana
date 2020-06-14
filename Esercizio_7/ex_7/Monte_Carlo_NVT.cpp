@@ -281,22 +281,7 @@ void Measure()
           break;
         }
       }
-      
-      /*for(int k=1; k<nbins_f+1; k++){
-        if(dr<k*bin_f_size){
-          for(int s=1; s<nbins_s+1; s++){
-            if(dr<((k-1)*bin_f_size+s*bin_s_size)){
-              walker[igofr+(k-1)*int(nbins/nbins_f)+(s-1)]+=2.;
-             // cout << igofr+(k-1)*int(nbins/nbins_f)+(s-1) << endl;
-              break;
-            }
-          }
-          break;
-        }
-      }*/
-      
-      
-      
+            
 //update of the histogram of g(r)
 
      if(dr < rcut)
